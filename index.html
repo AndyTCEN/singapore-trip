@@ -26,25 +26,38 @@
     line-height: 1.6;
   }
   header.hero {
-    background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+    background:
+      linear-gradient(180deg, rgba(0, 60, 60, .55), rgba(0, 40, 40, .85)),
+      url("images/garden-rhapsody.jpg") center / cover;
     color: #fff;
-    padding: 2rem 1rem 3.5rem;
+    padding: clamp(3rem, 12vw, 6rem) 1rem 5rem;
     text-align: center;
   }
-  header.hero h1 { margin: 0 0 .25rem; font-size: clamp(1.5rem, 5vw, 2.25rem); }
-  header.hero p { margin: 0; opacity: .9; }
+  header.hero .eyebrow { letter-spacing: .3em; font-size: .8rem; opacity: .85; margin: 0 0 .5rem; }
+  header.hero h1 { margin: 0 0 .5rem; font-size: clamp(1.8rem, 6vw, 3rem); text-shadow: 0 2px 12px rgba(0, 0, 0, .4); }
+  header.hero p { margin: 0; opacity: .95; }
+  header.hero .hero-meta { display: inline-flex; flex-wrap: wrap; gap: .5rem; justify-content: center; margin-top: 1rem; }
+  header.hero .hero-meta span {
+    background: rgba(255, 255, 255, .18);
+    backdrop-filter: blur(6px);
+    padding: .2rem .8rem;
+    border-radius: 999px;
+    font-size: .85rem;
+  }
 
   nav.day-tabs {
     position: sticky;
-    top: 0;
+    top: .5rem;
     z-index: 10;
-    background: var(--card);
-    box-shadow: 0 2px 6px rgba(0, 0, 0, .1);
-    margin-top: -1.75rem;
-    border-radius: 12px 12px 0 0;
+    background: rgba(255, 255, 255, .95);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, .15);
+    margin-top: -2.5rem;
+    border-radius: 16px;
     max-width: 860px;
-    margin-inline: auto;
+    margin-inline: 1rem;
   }
+  @media (min-width: 900px) { nav.day-tabs { margin-inline: auto; } }
   [role="tablist"] {
     display: flex;
     overflow-x: auto;
@@ -58,29 +71,55 @@
     border: 0;
     background: transparent;
     padding: .5rem .75rem;
-    border-radius: 8px;
+    border-radius: 12px;
     cursor: pointer;
     font: inherit;
     color: var(--muted);
     text-align: center;
     line-height: 1.3;
+    transition: background .2s, color .2s;
   }
+  [role="tab"]:hover { background: var(--bg); }
   [role="tab"] small { display: block; font-size: .72rem; }
-  [role="tab"][aria-selected="true"] { background: var(--teal); color: #fff; font-weight: 600; }
+  [role="tab"][aria-selected="true"] { background: var(--teal); color: #fff; font-weight: 600; box-shadow: 0 3px 10px rgba(0, 128, 128, .4); }
   [role="tab"]:focus-visible { outline: 3px solid var(--info); outline-offset: 2px; }
 
   main { max-width: 860px; margin: 0 auto; padding: 1rem; }
-  .day-title { margin: .5rem 0 .25rem; color: var(--teal-dark); }
-  .day-date { margin: 0 0 1rem; color: var(--muted); }
+  .day-cover {
+    position: relative;
+    min-height: 200px;
+    margin: .5rem 0 1.25rem;
+    padding: 1.25rem;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    color: #fff;
+    background: var(--teal-dark) center / cover;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, .18);
+    overflow: hidden;
+  }
+  .day-cover::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 20%, rgba(0, 0, 0, .7));
+  }
+  .day-cover > * { position: relative; }
+  .day-title { margin: 0; font-size: clamp(1.3rem, 4.5vw, 1.8rem); text-shadow: 0 2px 8px rgba(0, 0, 0, .5); }
+  .day-date { margin: .25rem 0 0; opacity: .9; }
 
   .segment {
     background: var(--card);
     border: 1px solid var(--border);
     border-left: 5px solid var(--teal);
-    border-radius: 12px;
+    border-radius: 16px;
     margin-bottom: 1rem;
     overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, .05);
+    transition: box-shadow .2s;
   }
+  .segment[open] { box-shadow: 0 8px 24px rgba(0, 0, 0, .1); }
   .segment > summary {
     list-style: none;
     cursor: pointer;
@@ -112,6 +151,28 @@
   .info-card { border-radius: 10px; padding: .7rem .9rem; background: var(--bg); border-left: 4px solid var(--teal); }
   .info-card h4 { margin: 0 0 .35rem; font-size: .95rem; }
   .info-card ul { margin: 0; padding-left: 1.2rem; }
+  .info-card.attraction { background: transparent; padding: 0; border-left: 0; }
+  .info-card.attraction h4 { margin-bottom: .6rem; }
+  .info-card.attraction ul {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: .75rem;
+  }
+  .place-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    padding: 0 0 .75rem;
+    transition: transform .2s, box-shadow .2s;
+  }
+  .place-card:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0, 0, 0, .12); }
+  .place-card:has(.map-frame:not([hidden])) { grid-column: 1 / -1; }
+  .place-card > :not(.place-photo) { margin-inline: .75rem; }
+  .place-photo { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; background: var(--border); margin-bottom: .6rem; }
+  .place-text { display: block; font-weight: 500; }
   .map-link {
     display: inline-block;
     margin: .25rem .5rem 0 0;
@@ -146,6 +207,10 @@
   .info-card.rain h4 { color: var(--accent); }
 
   footer { text-align: center; color: var(--muted); font-size: .85rem; padding: 1.5rem 1rem 2.5rem; }
+  .credits { max-width: 860px; margin: 0 auto; padding: 0 1rem 2rem; font-size: .8rem; color: var(--muted); }
+  .credits summary { cursor: pointer; }
+  .credits ul { padding-left: 1.2rem; }
+  .credits a { color: var(--info); }
   @media (min-width: 720px) {
     .segment > summary { flex-direction: row; align-items: center; gap: 1rem; }
     .seg-time { min-width: 9.5rem; }
@@ -158,8 +223,13 @@
 <body>
 
 <header class="hero">
+  <p class="eyebrow">SINGAPORE TRAVEL GUIDE</p>
   <h1>新加坡五天四夜旅遊指南</h1>
-  <p>2026/09/24 (四) – 2026/09/28 (一)　台北 TPE ⇄ 新加坡 SIN</p>
+  <p>2026/09/24 (四) – 2026/09/28 (一)</p>
+  <div class="hero-meta">
+    <span>✈️ 台北 TPE ⇄ 新加坡 SIN</span>
+    <span>🏨 Hotel Jen Orchardgateway</span>
+  </div>
 </header>
 
 <nav class="day-tabs" aria-label="行程天數">
@@ -168,7 +238,12 @@
 
 <main id="content" tabindex="-1"></main>
 
-<footer>住宿：Hotel Jen Orchardgateway　|　交通費用與營業時間請以現場公告為準</footer>
+<details class="credits">
+  <summary>照片來源 (Wikimedia Commons)</summary>
+  <ul id="credit-list"></ul>
+</details>
+
+<footer>交通費用與營業時間請以現場公告為準</footer>
 
 <script>
 "use strict";
@@ -179,6 +254,7 @@
  * @typedef {Object} Place
  * @property {string} text
  * @property {string} place            Google 地圖搜尋用的地名
+ * @property {string} [photo]          images/ 內的照片檔名 (不含副檔名)
  * @typedef {Object} Route
  * @property {string} text
  * @property {string} from
@@ -195,6 +271,7 @@
  * @property {string} [rain]
  * @typedef {Object} Day
  * @property {string} label
+ * @property {string} cover            當天封面照片檔名
  * @property {string} date
  * @property {string} title
  * @property {Segment[]} segments
@@ -203,7 +280,7 @@
 /** @type {Day[]} */
 const days = [
   {
-    label: "Day 1", date: "2026/09/24 (四)", title: "抵達新加坡 & 星耀樟宜",
+    label: "Day 1", cover: "rain-vortex", date: "2026/09/24 (四)", title: "抵達新加坡 & 星耀樟宜",
     segments: [
       {
         time: "07:30 – 11:55", title: "航班：台北 TPE → 樟宜機場 SIN", setting: "indoor",
@@ -221,9 +298,9 @@ const days = [
       {
         time: "13:00 – 17:00", title: "星耀樟宜 Jewel Changi 探索", setting: "indoor",
         attractions: [
-          { text: "Rain Vortex：40 公尺室內瀑布", place: "Rain Vortex Jewel Changi Airport" },
-          { text: "資生堂森林谷 Shiseido Forest Valley", place: "Shiseido Forest Valley Jewel Changi Airport" },
-          { text: "Canopy Park 天空樂園", place: "Canopy Park Jewel Changi Airport" },
+          { text: "Rain Vortex：40 公尺室內瀑布", place: "Rain Vortex Jewel Changi Airport", photo: "rain-vortex" },
+          { text: "資生堂森林谷 Shiseido Forest Valley", place: "Shiseido Forest Valley Jewel Changi Airport", photo: "shiseido-forest-valley" },
+          { text: "Canopy Park 天空樂園", place: "Canopy Park Jewel Changi Airport", photo: "canopy-park" },
         ],
         food: ["Shake Shack", "Jumbo Seafood 珍寶海鮮", "Song Fa 新加坡肉骨茶", "Birds of Paradise Gelato"],
         rain: "100% 室內設施，不受下雨影響。",
@@ -240,14 +317,14 @@ const days = [
     ],
   },
   {
-    label: "Day 2", date: "2026/09/25 (五)", title: "萬態野生動物保護區",
+    label: "Day 2", cover: "panda", date: "2026/09/25 (五)", title: "萬態野生動物保護區",
     segments: [
       {
         time: "10:00 – 16:30", title: "河流生態園 River Wonders", setting: "mixed",
         attractions: [
-          { text: "大熊貓森林：凱凱 Kai Kai 與嘉嘉 Jia Jia", place: "Giant Panda Forest River Wonders Singapore" },
+          { text: "大熊貓森林：凱凱 Kai Kai 與嘉嘉 Jia Jia", place: "Giant Panda Forest River Wonders Singapore", photo: "panda" },
           { text: "Amazon River Quest 亞馬遜河探險船", place: "Amazon River Quest River Wonders Singapore" },
-          { text: "Amazon Flooded Forest 淡水水族館", place: "Amazon Flooded Forest River Wonders Singapore" },
+          { text: "Amazon Flooded Forest 淡水水族館", place: "Amazon Flooded Forest River Wonders Singapore", photo: "amazon-flooded-forest" },
         ],
         transport: [
           { text: "計程車 / Grab：從烏節路約 25–30 分鐘", from: "Hotel Jen Orchardgateway Singapore", to: "River Wonders Singapore", mode: "driving" },
@@ -260,7 +337,7 @@ const days = [
         time: "18:30 – 21:30", title: "夜間野生動物園 Night Safari", setting: "outdoor",
         booking: "夜間場次，請提前訂票",
         attractions: [
-          { text: "導覽電車：穿越 7 個地理分區", place: "Night Safari Singapore" },
+          { text: "導覽電車：穿越 7 個地理分區", place: "Night Safari Singapore", photo: "night-safari" },
           { text: "步行小徑", place: "Night Safari Singapore" },
           { text: "Creatures of the Night 夜行動物秀", place: "Night Safari Singapore" },
         ],
@@ -271,13 +348,13 @@ const days = [
     ],
   },
   {
-    label: "Day 3", date: "2026/09/26 (六)", title: "南部山脊、牛車水 & 摩天觀景輪",
+    label: "Day 3", cover: "henderson-waves", date: "2026/09/26 (六)", title: "南部山脊、牛車水 & 摩天觀景輪",
     segments: [
       {
         time: "08:30 – 13:00", title: "南部山脊 Southern Ridges 健行", setting: "outdoor",
         attractions: [
-          { text: "亨德森波浪橋 Henderson Waves", place: "Henderson Waves Singapore" },
-          { text: "Forest Walk 高架林冠步道", place: "Forest Walk Southern Ridges Singapore" },
+          { text: "亨德森波浪橋 Henderson Waves", place: "Henderson Waves Singapore", photo: "henderson-waves" },
+          { text: "Forest Walk 高架林冠步道", place: "Forest Walk Southern Ridges Singapore", photo: "forest-walk" },
         ],
         transport: [
           { text: "MRT：飯店 → Somerset (NS23) → Dhoby Ghaut (NS24) 轉 NE 線 → HarbourFront (NE1/CC29) D 出口，前往 Marang Trail", from: "Hotel Jen Orchardgateway Singapore", to: "HarbourFront MRT Station Singapore", mode: "transit" },
@@ -289,9 +366,9 @@ const days = [
       {
         time: "13:00 – 16:00", title: "牛車水文化漫步 Chinatown", setting: "mixed",
         attractions: [
-          { text: "佛牙寺龍華院 Buddha Tooth Relic Temple", place: "Buddha Tooth Relic Temple Singapore" },
-          { text: "馬里安曼興都廟 Sri Mariamman Temple", place: "Sri Mariamman Temple Singapore" },
-          { text: "歷史老店屋街景", place: "Chinatown Singapore" },
+          { text: "佛牙寺龍華院 Buddha Tooth Relic Temple", place: "Buddha Tooth Relic Temple Singapore", photo: "buddha-tooth" },
+          { text: "馬里安曼興都廟 Sri Mariamman Temple", place: "Sri Mariamman Temple Singapore", photo: "sri-mariamman" },
+          { text: "歷史老店屋街景", place: "Chinatown Singapore", photo: "chinatown" },
         ],
         transport: [
           { text: "巴士 124 / 166，或 MRT 濱海市區線至 Chinatown (DT19)", from: "Henderson Waves Singapore", to: "Chinatown MRT Station Singapore", mode: "transit" },
@@ -304,7 +381,7 @@ const days = [
       {
         time: "17:00 – 20:30", title: "新加坡摩天觀景輪 & 老巴剎沙嗲街", setting: "outdoor",
         attractions: [
-          { text: "165 公尺巨型摩天輪 (一圈約 30 分鐘)", place: "Singapore Flyer" },
+          { text: "165 公尺巨型摩天輪 (一圈約 30 分鐘)", place: "Singapore Flyer", photo: "singapore-flyer" },
         ],
         transport: [
           { text: "牛車水 → 摩天輪：濱海市區線至 Promenade (DT15/CC4)，步行 8 分鐘", from: "Chinatown MRT Station Singapore", to: "Singapore Flyer", mode: "transit" },
@@ -316,12 +393,12 @@ const days = [
     ],
   },
   {
-    label: "Day 4", date: "2026/09/27 (日)", title: "魚尾獅、濱海灣花園、鴨子船 & 空中花園",
+    label: "Day 4", cover: "supertree-grove", date: "2026/09/27 (日)", title: "魚尾獅、濱海灣花園、鴨子船 & 空中花園",
     segments: [
       {
         time: "09:00 – 10:00", title: "魚尾獅公園 Merlion Park", setting: "outdoor",
         attractions: [
-          { text: "魚尾獅雕像，背景為濱海灣金沙天際線", place: "Merlion Park Singapore" },
+          { text: "魚尾獅雕像，背景為濱海灣金沙天際線", place: "Merlion Park Singapore", photo: "merlion" },
         ],
         transport: [
           { text: "MRT：飯店 → Somerset (NS23)，NS 線直達 Raffles Place (NS26)，沿河步行 8–10 分鐘", from: "Hotel Jen Orchardgateway Singapore", to: "Merlion Park Singapore", mode: "transit" },
@@ -332,9 +409,9 @@ const days = [
       {
         time: "10:30 – 14:30", title: "濱海灣花園 Gardens by the Bay", setting: "mixed",
         attractions: [
-          { text: "花穹 Flower Dome", place: "Flower Dome Gardens by the Bay Singapore" },
-          { text: "雲霧林 Cloud Forest (35 公尺室內瀑布山)", place: "Cloud Forest Gardens by the Bay Singapore" },
-          { text: "擎天樹叢 Supertree Grove", place: "Supertree Grove Gardens by the Bay Singapore" },
+          { text: "花穹 Flower Dome", place: "Flower Dome Gardens by the Bay Singapore", photo: "flower-dome" },
+          { text: "雲霧林 Cloud Forest (35 公尺室內瀑布山)", place: "Cloud Forest Gardens by the Bay Singapore", photo: "cloud-forest" },
+          { text: "擎天樹叢 Supertree Grove", place: "Supertree Grove Gardens by the Bay Singapore", photo: "supertree-grove" },
         ],
         transport: [
           { text: "從魚尾獅 Grab 約 8 分鐘", from: "Merlion Park Singapore", to: "Gardens by the Bay Singapore", mode: "driving" },
@@ -346,7 +423,7 @@ const days = [
         time: "15:00 – 18:00", title: "鴨子船 DuckTours & 新達城晚餐", setting: "mixed",
         booking: "已預訂 15:30 場次；15:00 至新達城櫃檯報到",
         attractions: [
-          { text: "水陸兩棲鴨子船：陸上遊覽 + 濱海灣 Splashdown 下水", place: "DUCKtours Suntec City Singapore" },
+          { text: "水陸兩棲鴨子船：陸上遊覽 + 濱海灣 Splashdown 下水", place: "DUCKtours Suntec City Singapore", photo: "ducktours" },
         ],
         transport: [
           { text: "從濱海灣花園 Grab 約 8 分鐘至新達城 Suntec City", from: "Gardens by the Bay Singapore", to: "Suntec City Singapore", mode: "driving" },
@@ -358,8 +435,8 @@ const days = [
         time: "18:00 – 20:30", title: "金沙空中花園 SkyPark 觀景台", setting: "outdoor",
         booking: "Garden Rhapsody 燈光秀 19:45 / 20:45",
         attractions: [
-          { text: "57 樓全景夜景", place: "Marina Bay Sands SkyPark Observation Deck Singapore" },
-          { text: "俯瞰濱海灣花園 Garden Rhapsody 燈光秀", place: "Garden Rhapsody Gardens by the Bay Singapore" },
+          { text: "57 樓全景夜景", place: "Marina Bay Sands SkyPark Observation Deck Singapore", photo: "skypark" },
+          { text: "俯瞰濱海灣花園 Garden Rhapsody 燈光秀", place: "Garden Rhapsody Gardens by the Bay Singapore", photo: "garden-rhapsody" },
         ],
         transport: [
           { text: "從新達城 Grab 約 5 分鐘", from: "Suntec City Singapore", to: "Marina Bay Sands SkyPark Singapore", mode: "driving" },
@@ -369,7 +446,7 @@ const days = [
     ],
   },
   {
-    label: "Day 5", date: "2026/09/28 (一)", title: "返程",
+    label: "Day 5", cover: "merlion", date: "2026/09/28 (一)", title: "返程",
     segments: [
       {
         time: "09:00 – 12:00", title: "飯店退房 & 機場免稅購物", setting: "indoor",
@@ -386,6 +463,124 @@ const days = [
     ],
   },
 ];
+
+/** 照片來自 Wikimedia Commons，依授權需標示來源。 */
+const photoCredits = {
+  "rain-vortex": {
+    "title": "At Jewel Changi, Singapore 2023 36",
+    "artist": "Photograph by Mike Peel (www.mikepeel.net).",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:At_Jewel_Changi,_Singapore_2023_36.jpg"
+  },
+  "canopy-park": {
+    "title": "Canopy Park at Jewel Changi Airport - 49470136106",
+    "artist": "cattan2011",
+    "license": "CC BY 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Canopy_Park_at_Jewel_Changi_Airport_-_49470136106.jpg"
+  },
+  "panda": {
+    "title": "Giant Panda at Singapore River Safari",
+    "artist": "Michael Gwyther-Jones",
+    "license": "CC BY 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Giant_Panda_at_Singapore_River_Safari.jpg"
+  },
+  "amazon-flooded-forest": {
+    "title": "River Safari Singapore Amazon Flooded Forest",
+    "artist": "ProjectManhattan",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:River_Safari_Singapore_Amazon_Flooded_Forest.JPG"
+  },
+  "night-safari": {
+    "title": "Entrance of Night Safari, Singapore, 2012",
+    "artist": "Allie Caulfield",
+    "license": "CC BY 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Entrance_of_Night_Safari,_Singapore,_2012.jpg"
+  },
+  "henderson-waves": {
+    "title": "Henderson Wave Bridge (I)",
+    "artist": "This Photo was taken by Supanut Arunoprayote.\n\nFeel free to ",
+    "license": "CC BY 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Henderson_Wave_Bridge_(I).jpg"
+  },
+  "forest-walk": {
+    "title": "Elevated Walkway of the Forest Walk, Southern Ridges, Singapore - 20090314",
+    "artist": "The Soon",
+    "license": "CC BY-SA 3.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Elevated_Walkway_of_the_Forest_Walk,_Southern_Ridges,_Singapore_-_20090314.jpg"
+  },
+  "buddha-tooth": {
+    "title": "Praying monks and nuns in the Buddha Tooth Relic Temple of Singapore",
+    "artist": "Basile Morin",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Praying_monks_and_nuns_in_the_Buddha_Tooth_Relic_Temple_of_Singapore.jpg"
+  },
+  "sri-mariamman": {
+    "title": "Sri Mariamman Temple, Singapore, 20240122 0843 2947",
+    "artist": "Jakub Hałun",
+    "license": "CC BY 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Sri_Mariamman_Temple,_Singapore,_20240122_0843_2947.jpg"
+  },
+  "chinatown": {
+    "title": "Singapore (SG), China Town, Pagoda Street -- 2019 -- 4515",
+    "artist": "Dietmar Rabich",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Singapore_(SG),_China_Town,_Pagoda_Street_--_2019_--_4515.jpg"
+  },
+  "singapore-flyer": {
+    "title": "Singapore (SG), Singapore Flyer -- 2019 -- 4472",
+    "artist": "Dietmar Rabich",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Singapore_(SG),_Singapore_Flyer_--_2019_--_4472.jpg"
+  },
+  "merlion": {
+    "title": "Merlión, Marina Bay, Singapur, 2023-08-18, DD 45-47 HDR",
+    "artist": "Diego Delso",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Merli%C3%B3n,_Marina_Bay,_Singapur,_2023-08-18,_DD_45-47_HDR.jpg"
+  },
+  "flower-dome": {
+    "title": "Singapore Flower-Dome-and-Cloud-Forest-in-The-Gardens-01",
+    "artist": "CEphoto, Uwe Aranas",
+    "license": "CC BY-SA 3.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Singapore_Flower-Dome-and-Cloud-Forest-in-The-Gardens-01.jpg"
+  },
+  "cloud-forest": {
+    "title": "Cloud Forest, Gardens by the Bay, Singapore",
+    "artist": "Basile Morin",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Cloud_Forest,_Gardens_by_the_Bay,_Singapore.jpg"
+  },
+  "supertree-grove": {
+    "title": "Supertree Grove, Gardens by the Bay, Singapore1",
+    "artist": "Mustang Joe",
+    "license": "CC0",
+    "page": "https://commons.wikimedia.org/wiki/File:Supertree_Grove,_Gardens_by_the_Bay,_Singapore1.jpg"
+  },
+  "ducktours": {
+    "title": "Singapore Ducktours, Aug 06",
+    "artist": "User:Sengkang",
+    "license": "Copyrighted free use",
+    "page": "https://commons.wikimedia.org/wiki/File:Singapore_Ducktours,_Aug_06.JPG"
+  },
+  "skypark": {
+    "title": "Infinity Pool at Marina Bay Sands SkyPark Singapore Ank Kumar Infosys Limited 04",
+    "artist": "Ank Kumar",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Infinity_Pool_at_Marina_Bay_Sands_SkyPark_Singapore_Ank_Kumar_Infosys_Limited_04.jpg"
+  },
+  "garden-rhapsody": {
+    "title": "Supertree Grove, Gardens by the Bay, Singapore - 20120630-05",
+    "artist": "tee_eric.",
+    "license": "CC BY 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Supertree_Grove,_Gardens_by_the_Bay,_Singapore_-_20120630-05.jpg"
+  },
+  "shiseido-forest-valley": {
+    "title": "HSBC Rain Vortex and Shiseido Forest Valley",
+    "artist": "ScribblingGeek",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:HSBC_Rain_Vortex_and_Shiseido_Forest_Valley.jpg"
+  }
+};
 
 const settingLabels = { indoor: "室內", outdoor: "戶外", mixed: "室內 + 戶外" };
 
@@ -419,7 +614,16 @@ function buildPlaceUrl(place) {
 
 /** 景點：按鈕點擊後才載入並展開內嵌地圖，避免一次載入大量 iframe。 */
 function fillPlaceItem(container, item) {
-  container.appendChild(document.createTextNode(item.text));
+  container.classList.add("place-card");
+  if (item.photo) {
+    const photo = createElement("img", "place-photo");
+    photo.src = `images/${item.photo}.jpg`;
+    photo.alt = item.text;
+    photo.loading = "lazy";
+    photo.addEventListener("error", () => photo.remove());
+    container.appendChild(photo);
+  }
+  container.appendChild(createElement("span", "place-text", item.text));
 
   const toggleButton = createElement("button", "map-link map-toggle", "📍 顯示地圖");
   toggleButton.type = "button";
@@ -449,7 +653,7 @@ function fillPlaceItem(container, item) {
     toggleButton.textContent = willOpen ? "✕ 收合地圖" : "📍 顯示地圖";
   });
 
-  container.append(document.createElement("br"), toggleButton, openLink, mapFrameWrapper);
+  container.append(toggleButton, openLink, mapFrameWrapper);
 }
 
 /** 填入一筆項目；景點附內嵌地圖，交通路線附 Google 地圖導航連結。 */
@@ -473,7 +677,7 @@ function fillItem(container, item) {
 function createInfoCard(cssClass, heading, items) {
   const card = createElement("section", `info-card ${cssClass}`);
   card.appendChild(createElement("h4", "", heading));
-  if (items.length === 1) {
+  if (items.length === 1 && cssClass !== "attraction") {
     const block = createElement("div");
     fillItem(block, items[0]);
     card.appendChild(block);
@@ -512,6 +716,17 @@ function renderSegment(segment, isFirst) {
   return details;
 }
 
+const creditList = document.getElementById("credit-list");
+Object.values(photoCredits).forEach((credit) => {
+  const item = createElement("li");
+  const link = createElement("a", "", credit.title);
+  link.href = credit.page;
+  link.target = "_blank";
+  link.rel = "noopener noreferrer";
+  item.append(link, ` — ${credit.artist} (${credit.license})`);
+  creditList.appendChild(item);
+});
+
 const tablist = document.getElementById("tablist");
 const content = document.getElementById("content");
 let activeIndex = 0;
@@ -531,8 +746,11 @@ function selectDay(index, moveFocus) {
   content.replaceChildren();
   content.setAttribute("role", "tabpanel");
   content.setAttribute("aria-labelledby", `tab-${index}`);
-  content.appendChild(createElement("h2", "day-title", `${day.label}：${day.title}`));
-  content.appendChild(createElement("p", "day-date", `📅 ${day.date}`));
+  const cover = createElement("div", "day-cover");
+  cover.style.backgroundImage = `url("images/${day.cover}.jpg")`;
+  cover.appendChild(createElement("h2", "day-title", `${day.label}：${day.title}`));
+  cover.appendChild(createElement("p", "day-date", `📅 ${day.date}`));
+  content.appendChild(cover);
   day.segments.forEach((segment, i) => content.appendChild(renderSegment(segment, i === 0)));
   history.replaceState(null, "", `#day${index + 1}`);
 }
