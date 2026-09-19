@@ -84,15 +84,15 @@
   [role="tab"][aria-selected="true"] { background: var(--teal); color: #fff; font-weight: 600; box-shadow: 0 3px 10px rgba(0, 128, 128, .4); }
   [role="tab"]:focus-visible { outline: 3px solid var(--info); outline-offset: 2px; }
 
-  .notice { max-width: 860px; margin: 1rem auto 0; padding-inline: 1rem; }
-  .notice > details {
+  .notes-collapse {
     background: var(--card);
     border: 1px solid var(--border);
-    border-left: 5px solid var(--accent);
+    border-left: 5px solid var(--teal);
     border-radius: 16px;
+    margin-bottom: 1rem;
     box-shadow: 0 2px 10px rgba(0, 0, 0, .05);
   }
-  .notice summary {
+  .notes-collapse > summary {
     list-style: none;
     cursor: pointer;
     padding: .9rem 1rem;
@@ -101,17 +101,30 @@
     align-items: baseline;
     gap: .25rem .75rem;
   }
-  .notice summary::-webkit-details-marker { display: none; }
-  .notice summary::after { content: "▾"; margin-left: auto; color: var(--muted); transition: transform .2s; }
-  .notice details[open] summary::after { transform: rotate(180deg); }
-  .notice summary:focus-visible { outline: 3px solid var(--info); outline-offset: -3px; }
-  .notice-title { font-weight: 700; font-size: 1.1rem; }
+  .notes-collapse > summary::-webkit-details-marker { display: none; }
+  .notes-collapse > summary::after { content: "▾"; margin-left: auto; color: var(--muted); transition: transform .2s; }
+  .notes-collapse[open] > summary::after { transform: rotate(180deg); }
+  .notes-collapse > summary:focus-visible { outline: 3px solid var(--info); outline-offset: -3px; }
+  .notes-title { font-weight: 700; font-size: 1.1rem; }
+  .notes-body { padding: 0 1rem 1rem; }
+  .notes-collapse > .notice-body { padding: 0 1rem 1rem; }
   .notice-lead { color: var(--accent); font-size: .9rem; font-weight: 600; }
-  .notice-body { padding: 0 1rem 1rem; display: grid; gap: .75rem; }
+  .notice-body { display: grid; gap: .75rem; }
   .notice-body p { margin: 0; }
   .notice-body ol { margin: 0; padding-left: 1.2rem; }
   .notice-body a { color: var(--info); }
   .notice-source { font-size: .8rem; color: var(--muted); }
+
+  .notes-intro { margin: 0 0 .6rem; color: var(--muted); font-size: .9rem; }
+  .check-list, .plain-list { list-style: none; margin: 0; padding: 0; display: grid; gap: .5rem; }
+  ol.plain-list { list-style: decimal; padding-left: 1.2rem; }
+  .check-list label { display: flex; gap: .6rem; align-items: flex-start; cursor: pointer; }
+  .check-list input { margin-top: .35rem; width: 1.1rem; height: 1.1rem; flex: none; accent-color: var(--teal); }
+  .check-list input:checked + span { color: var(--muted); text-decoration: line-through; }
+  .check-list input:focus-visible { outline: 3px solid var(--info); outline-offset: 2px; }
+  .item-label { font-weight: 600; }
+  .item-detail { display: block; font-size: .92rem; }
+  .notes-callout { margin: .6rem 0 0; padding: .5rem .75rem; border-radius: 8px; background: #fff7e6; font-size: .9rem; }
 
   main { max-width: 860px; margin: 0 auto; padding: 1rem; }
   .day-cover {
@@ -263,75 +276,75 @@
   </div>
 </header>
 
-<nav class="day-tabs" aria-label="行程天數">
+<nav class="day-tabs" aria-label="行程天數與注意事項">
   <div role="tablist" id="tablist"></div>
 </nav>
 
-<section class="notice" aria-labelledby="notice-heading">
-  <details>
+<template id="notes-template">
+  <details class="notes-collapse">
     <summary>
-      <span class="notice-title" id="notice-heading">🛂 入境須知</span>
-      <span class="notice-lead">出發前 72 小時內填寫 SG Arrival Card（免費）</span>
+      <span class="notes-title">🛂 入境須知</span>
+      <span class="notice-lead">入境前 3 天內（含入境當天）填寫 SG Arrival Card（免費）</span>
     </summary>
-    <div class="notice-body">
-      <section class="info-card rain">
-        <h4>⏰ 你的填寫時間</h4>
-        <p>抵達日為 <strong>2026/09/24 (四)</strong>，最早 <strong>9/21 (一)</strong> 起可填。建議 9/22–9/23 完成，並截圖或存 PDF 備用。</p>
-      </section>
+  <div class="notice-body">
+    <section class="info-card rain">
+      <h4>⏰ 你的填寫時間</h4>
+      <p>抵達日為 <strong>2026/09/24 (四)</strong>，須在入境前 3 天內（含入境當天）完成，即 <strong>9/22 (二) – 9/24 (四)</strong>。建議 9/22–9/23 填好，收到 E-mail 確認信後截圖或存 PDF 備用。</p>
+    </section>
 
-      <section class="info-card transport">
-        <h4>📱 填寫方式</h4>
-        <ul>
-          <li>官方網站：<a href="https://eservices.ica.gov.sg/sgarrivalcard/" target="_blank" rel="noopener noreferrer">eservices.ica.gov.sg/sgarrivalcard</a></li>
-          <li>App：MyICA Mobile (iOS / Android)</li>
-          <li>費用：完全免費；請只使用官方入口，避免誤入收費的代辦網站</li>
-        </ul>
-      </section>
+    <section class="info-card transport">
+      <h4>📱 填寫方式</h4>
+      <ul>
+        <li>官方網站：<a href="https://eservices.ica.gov.sg/sgarrivalcard/" target="_blank" rel="noopener noreferrer">eservices.ica.gov.sg/sgarrivalcard</a></li>
+        <li>App：MyICA Mobile (iOS / Android)</li>
+        <li>費用：完全免費；請只使用官方入口，避免誤入收費的代辦網站</li>
+      </ul>
+    </section>
 
-      <section class="info-card notice-card">
-        <h4>🇹🇼 台灣護照</h4>
-        <ul>
-          <li>免簽 30 天（本行程 5 天）</li>
-          <li>護照效期需超過 6 個月：9/24 入境，效期須晚於 <strong>2027/03/24</strong></li>
-          <li>可使用自動通關機 (ACI)，按下護照做生物辨識</li>
-        </ul>
-      </section>
+    <section class="info-card notice-card">
+      <h4>🇹🇼 台灣護照</h4>
+      <ul>
+        <li>免簽 30 天（本行程 5 天）</li>
+        <li>護照效期需超過 6 個月：9/24 入境，效期須晚於 <strong>2027/03/24</strong></li>
+        <li>可使用自動通關機 (ACI)，按下護照做生物辨識</li>
+      </ul>
+    </section>
 
-      <section class="info-card notice-card">
-        <h4>📝 必填欄位</h4>
-        <ul>
-          <li><strong>個人資料</strong>：護照掃描或手動輸入、居住地與國家代碼、手機號碼、電子信箱</li>
-          <li><strong>行程</strong>：入境與離境日期、抵達方式 (空運)、航班號碼與航空公司、旅行目的 (度假)、新加坡住宿地址 (Hotel Jen Orchardgateway)、抵達與離境前的城市 (台北)</li>
-          <li><strong>健康與經歷聲明</strong>：是否曾用其他護照入境新加坡、目前是否有感冒症狀、近 6 天是否造訪特定非洲或拉丁美洲國家</li>
-        </ul>
-      </section>
+    <section class="info-card notice-card">
+      <h4>📝 必填欄位</h4>
+      <ul>
+        <li><strong>個人資料</strong>：護照掃描或手動輸入、居住地與國家代碼、手機號碼、電子信箱</li>
+        <li><strong>行程</strong>：入境與離境日期、抵達方式 (空運)、航班號碼與航空公司、旅行目的 (度假)、新加坡住宿地址 (Hotel Jen Orchardgateway)、抵達與離境前的城市 (台北)</li>
+        <li><strong>健康與經歷聲明</strong>：是否曾用其他護照入境新加坡、目前是否有感冒症狀、近 6 天是否造訪特定非洲或拉丁美洲國家</li>
+      </ul>
+    </section>
 
-      <section class="info-card transport">
-        <h4>🛃 入境流程</h4>
-        <ol>
-          <li>出發前完成線上申報</li>
-          <li>持護照進入移民檢查區，使用自動通關機台</li>
-          <li>領取行李，通過海關檢查</li>
-          <li>之後到 Jewel Changi 1 樓寄放行李 (見 Day 1)</li>
-        </ol>
-      </section>
+    <section class="info-card transport">
+      <h4>🛃 入境流程</h4>
+      <ol>
+        <li>出發前完成線上申報</li>
+        <li>持護照進入移民檢查區，使用自動通關機台</li>
+        <li>領取行李，通過海關檢查</li>
+        <li>之後到 Jewel Changi 1 樓寄放行李 (見 Day 1)</li>
+      </ol>
+    </section>
 
-      <section class="info-card food">
-        <h4>🚫 禁止與限制物品</h4>
-        <ul>
-          <li>口香糖、電子菸、違禁藥品，一律不要攜帶</li>
-          <li>菸酒有免稅額度限制，超量須課稅</li>
-          <li>現金超過門檻須申報，可在 App 線上填寫；門檻約 S$20,000，請以官方公告為準</li>
-        </ul>
-      </section>
+    <section class="info-card food">
+      <h4>🚫 禁止與限制物品</h4>
+      <ul>
+        <li>口香糖、電子菸、違禁藥品，一律不要攜帶</li>
+        <li>菸酒有免稅額度限制，超量須課稅</li>
+        <li>現金超過門檻須申報，可在 App 線上填寫；門檻約 S$20,000，請以官方公告為準</li>
+      </ul>
+    </section>
 
-      <p class="notice-source">
-        資料來源：<a href="https://panpanlife.com/sgac/" target="_blank" rel="noopener noreferrer">panpanlife.com/sgac</a>。
-        規定可能變動，出發前請至 <a href="https://www.ica.gov.sg/" target="_blank" rel="noopener noreferrer">新加坡移民與關卡局 (ICA)</a> 確認。
-      </p>
-    </div>
+    <p class="notice-source">
+      資料來源：<a href="https://panpanlife.com/sgac/" target="_blank" rel="noopener noreferrer">panpanlife.com/sgac</a>。
+      規定可能變動，出發前請至 <a href="https://www.ica.gov.sg/" target="_blank" rel="noopener noreferrer">新加坡移民與關卡局 (ICA)</a> 確認。
+    </p>
+  </div>
   </details>
-</section>
+</template>
 
 <main id="content" tabindex="-1"></main>
 
@@ -824,11 +837,175 @@ Object.values(photoCredits).forEach((credit) => {
   creditList.appendChild(item);
 });
 
+/**
+ * 注意事項：打包清單、當地法規、景點提醒。
+ * @typedef {Object} NoteItem
+ * @property {string} label
+ * @property {string} [detail]
+ * @typedef {Object} NoteGroup
+ * @property {string} heading
+ * @property {string} [intro]
+ * @property {"checklist" | "rules" | "tips"} kind
+ * @property {string} cardClass
+ * @property {NoteItem[]} items
+ * @property {string} [callout]
+ */
+
+/** @type {NoteGroup[]} */
+const noteGroups = [
+  {
+    heading: "📄 證件與財務", kind: "checklist", cardClass: "transport",
+    items: [
+      { label: "護照正本", detail: "效期須在 6 個月以上（以 9/24 計算，至少到 2027 年 3 月底）" },
+      { label: "新加坡電子入境卡 (SGAC)", detail: "入境前 3 天內（9/22–9/24）線上填寫完成，收到 E-mail 確認信後建議截圖或印出" },
+      { label: "機票與飯店預約單", detail: "酷航電子機票 (TPE ↔ SIN)、Hotel Jen Orchardgateway 訂房確認信" },
+      { label: "信用卡 / 行動支付", detail: "感應式付款普及；MRT、公車可直接刷台灣感應式信用卡，不一定要買 EZ-Link（海外刷卡有手續費，可評估回饋）" },
+      { label: "新加坡幣 (SGD) 現金", detail: "麥士威熟食中心、老巴剎沙嗲街等小吃攤仍以現金為主，建議每天約 50–100 SGD／人，視消費而定" },
+      { label: "上網 SIM 卡 / eSIM", detail: "出發前開通或帶好實體卡，並確認安裝說明" },
+    ],
+  },
+  {
+    heading: "👕 衣物與穿搭", kind: "checklist", cardClass: "notice-card",
+    intro: "熱帶雨林氣候，全年約 25–32°C 高溫潮濕，室內冷氣通常開很強。",
+    items: [
+      { label: "輕便夏季衣物", detail: "排汗、透氣的短袖、短褲或洋裝" },
+      { label: "薄外套 / 襯衫 / 披肩", detail: "商場、MRT、濱海灣花園的花穹與雲霧林冷氣極強" },
+      { label: "運動休閒鞋 / 健行鞋", detail: "Day 3 南部山脊與波浪橋健行，動物園與濱海灣花園也要大量步行，需好走、防滑" },
+      { label: "涼鞋 / 拖鞋", detail: "玩水或雨天備用" },
+      { label: "Smart Casual 服裝", detail: "Marina Bay Sands SkyPark、高級酒吧或觀景餐廳有 Dress Code，避免夾腳拖、背心與運動短褲" },
+      { label: "廟宇參訪服裝", detail: "Day 3 佛牙寺龍華院須端莊：遮住肩膀與膝蓋，入口通常提供免費租借沙龍披肩" },
+      { label: "泳裝 / 泳鏡", detail: "Hotel Jen Orchardgateway 頂樓有著名的無邊際泳池" },
+      { label: "防雨裝備", detail: "午後常有雷陣雨或暴雨，帶折疊傘或輕便雨衣" },
+    ],
+  },
+  {
+    heading: "🧴 日常用品與個人防護", kind: "checklist", cardClass: "food",
+    items: [
+      { label: "高係數防曬乳 / 防曬噴霧", detail: "鴨子船、南部山脊等戶外活動容易曬傷" },
+      { label: "防蚊液 / 驅蚊貼片", detail: "萬態野生動物世界（河流生態園、夜間野生動物園）與南部山脊為自然林相，蚊蟲多" },
+      { label: "太陽眼鏡、遮陽帽" },
+      { label: "個人隨身藥品", detail: "感冒藥、腸胃藥、暈車 / 暈船藥（鴨子船可能會晃）、OK 繃" },
+      { label: "濕紙巾 / 面紙 / 酒精棉片", detail: "熟食中心通常不提供免費紙巾，桌椅可能需自行擦拭" },
+    ],
+    callout: "🍽️ Chope 佔位：當地人習慣在熟食中心的桌上放一包面紙佔位。看到桌上有面紙，代表該座位已有人，請勿入座。",
+  },
+  {
+    heading: "🔌 電子設備與配件", kind: "checklist", cardClass: "transport",
+    items: [
+      { label: "萬國轉接頭（英規 G 型）", detail: "三腳扁型插頭、電壓 230V；部分飯店提供萬用插座，自備一個最保險" },
+      { label: "行動電源", detail: "須隨身攜帶、不可託運；導航、拍照、刷票券條碼耗電很快" },
+      { label: "手機充電線與充電頭" },
+      { label: "手機防水袋", detail: "鴨子船與 Amazon River Quest 可能有輕微濺水" },
+    ],
+  },
+  {
+    heading: "⚖️ 當地法規與禁忌", kind: "rules", cardClass: "rain",
+    intro: "新加坡法規嚴格，以下事項罰金很高，請務必遵守。",
+    items: [
+      { label: "禁止攜帶與嚼食口香糖", detail: "入境行李檢查若發現可能被沒收或罰款" },
+      { label: "MRT 車廂與付費閘區內禁止飲食", detail: "不可喝水、吃東西、嚼檳榔，最高罰 500 新幣" },
+      { label: "禁止亂丟垃圾、隨地吐痰、吐口香糖", detail: "亂丟垃圾初犯最高可處 2,000 新幣罰款或勞改" },
+      { label: "行人路權與過馬路", detail: "禁止闖紅燈，或在行人穿越道 50 公尺內任意穿越馬路" },
+      { label: "吸菸規定極嚴", detail: "多數公共場所、冷氣室內、公園、公車站牌 5 公尺內全面禁菸，只能在黃色格子的指定吸菸區 (DSA) 吸。電子菸完全違法（持有、購買、吸食皆違法），請勿帶入境" },
+      { label: "使用公共廁所後須沖水", detail: "未沖水一經發現也會被罰款" },
+    ],
+  },
+  {
+    heading: "📍 景點行前提醒", kind: "tips", cardClass: "notice-card",
+    items: [
+      { label: "星耀樟宜 (Day 1 & Day 5)", detail: "Rain Vortex 通常平日 11:00–22:00、假日 10:00–22:00 運行，晚上有燈光音樂秀，記得安排時間觀賞" },
+      { label: "河流生態園 (Day 2)", detail: "Amazon River Quest 乘船體驗有身高限制（須高於 106 公分），雨天可能暫停" },
+      { label: "夜間野生動物園 (Day 2)", detail: "務必提前在官網預約入場時段（通常有 19:15、20:15、21:15），遲到可能被拒絕入場；夜間遊園電車已含在門票內；拍照絕對禁止開閃光燈" },
+      { label: "鴨子船 (Day 4)", detail: "建議提早 15–30 分鐘抵達新達城登船點報到" },
+      { label: "濱海灣花園 (Day 4)", detail: "Garden Rhapsody 燈光秀每晚兩場 19:45 與 20:45，免費觀看；最佳觀賞方式是躺在擎天樹下的草地上仰望" },
+      { label: "機場採購 (Day 5)", detail: "想買 Bacha Coffee 或 Bengawan Solo 班蘭蛋糕，建議提早辦好登機手續進入管制區再買，管制區內購買可享免稅（省下 9% GST）" },
+    ],
+  },
+];
+
+const checklistStorageKey = "sg-trip-checklist";
+
+function loadCheckedItems() {
+  try {
+    return new Set(JSON.parse(localStorage.getItem(checklistStorageKey) || "[]"));
+  } catch {
+    return new Set();
+  }
+}
+
+function saveCheckedItems(checkedItems) {
+  try {
+    localStorage.setItem(checklistStorageKey, JSON.stringify([...checkedItems]));
+  } catch {
+    /* 私密模式或封鎖儲存時，勾選狀態只保留到重新整理 */
+  }
+}
+
+function renderNoteItemText(item) {
+  const text = createElement("span");
+  text.appendChild(createElement("span", "item-label", item.label));
+  if (item.detail) text.appendChild(createElement("span", "item-detail", item.detail));
+  return text;
+}
+
+function renderNoteGroup(group, checkedItems) {
+  const section = createElement("details", "notes-collapse");
+  const summary = createElement("summary");
+  summary.appendChild(createElement("span", "notes-title", group.heading));
+  section.appendChild(summary);
+
+  const body = createElement("div", "notes-body");
+  if (group.intro) body.appendChild(createElement("p", "notes-intro", group.intro));
+
+  const card = createElement("div", `info-card ${group.cardClass}`);
+  const list = createElement(group.kind === "rules" ? "ol" : "ul", group.kind === "checklist" ? "check-list" : "plain-list");
+  group.items.forEach((item) => {
+    const listItem = createElement("li");
+    if (group.kind === "checklist") {
+      const label = createElement("label");
+      const checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      const key = `${group.heading}|${item.label}`;
+      checkbox.checked = checkedItems.has(key);
+      checkbox.addEventListener("change", () => {
+        if (checkbox.checked) checkedItems.add(key);
+        else checkedItems.delete(key);
+        saveCheckedItems(checkedItems);
+      });
+      label.append(checkbox, renderNoteItemText(item));
+      listItem.appendChild(label);
+    } else {
+      listItem.appendChild(renderNoteItemText(item));
+    }
+    list.appendChild(listItem);
+  });
+  card.appendChild(list);
+  if (group.callout) card.appendChild(createElement("p", "notes-callout", group.callout));
+  body.appendChild(card);
+  section.appendChild(body);
+  return section;
+}
+
+function renderNotes(container) {
+  const checkedItems = loadCheckedItems();
+  noteGroups.forEach((group) => container.appendChild(renderNoteGroup(group, checkedItems)));
+}
+
 const tablist = document.getElementById("tablist");
 const content = document.getElementById("content");
+const notesIndex = days.length;
+const totalTabs = days.length + 1;
 let activeIndex = 0;
 
-function selectDay(index, moveFocus) {
+function createCover(imageName, title, subtitle) {
+  const cover = createElement("div", "day-cover");
+  cover.style.backgroundImage = `url("images/${imageName}.jpg")`;
+  cover.appendChild(createElement("h2", "day-title", title));
+  cover.appendChild(createElement("p", "day-date", subtitle));
+  return cover;
+}
+
+function selectTab(index, moveFocus) {
   activeIndex = index;
   const tabs = tablist.querySelectorAll('[role="tab"]');
   tabs.forEach((tab, i) => {
@@ -839,35 +1016,46 @@ function selectDay(index, moveFocus) {
   if (moveFocus) tabs[index].focus();
   tabs[index].scrollIntoView({ block: "nearest", inline: "center" });
 
-  const day = days[index];
   content.replaceChildren();
   content.setAttribute("role", "tabpanel");
   content.setAttribute("aria-labelledby", `tab-${index}`);
-  const cover = createElement("div", "day-cover");
-  cover.style.backgroundImage = `url("images/${day.cover}.jpg")`;
-  cover.appendChild(createElement("h2", "day-title", `${day.label}：${day.title}`));
-  cover.appendChild(createElement("p", "day-date", `📅 ${day.date}`));
-  content.appendChild(cover);
+
+  if (index === notesIndex) {
+    content.appendChild(createCover("merlion", "注意事項", "出發前請先確認"));
+    content.appendChild(document.getElementById("notes-template").content.cloneNode(true));
+    renderNotes(content);
+    history.replaceState(null, "", "#notes");
+    return;
+  }
+
+  const day = days[index];
+  content.appendChild(createCover(day.cover, `${day.label}：${day.title}`, `📅 ${day.date}`));
   day.segments.forEach((segment, i) => content.appendChild(renderSegment(segment, i === 0)));
   history.replaceState(null, "", `#day${index + 1}`);
 }
 
-days.forEach((day, index) => {
+const tabLabels = [
+  ...days.map((day) => ({ name: day.label, hint: day.date.slice(5, 10) })),
+  { name: "注意事項", hint: "" },
+];
+
+tabLabels.forEach((label, index) => {
   const tab = createElement("button", "");
   tab.setAttribute("role", "tab");
   tab.id = `tab-${index}`;
-  tab.appendChild(document.createTextNode(day.label));
-  tab.appendChild(createElement("small", "", day.date.slice(5, 10)));
-  tab.addEventListener("click", () => selectDay(index, false));
+  tab.appendChild(document.createTextNode(label.name));
+  if (label.hint) tab.appendChild(createElement("small", "", label.hint));
+  tab.addEventListener("click", () => selectTab(index, false));
   tab.addEventListener("keydown", (event) => {
-    if (event.key === "ArrowRight") selectDay((activeIndex + 1) % days.length, true);
-    if (event.key === "ArrowLeft") selectDay((activeIndex - 1 + days.length) % days.length, true);
+    if (event.key === "ArrowRight") selectTab((activeIndex + 1) % totalTabs, true);
+    if (event.key === "ArrowLeft") selectTab((activeIndex - 1 + totalTabs) % totalTabs, true);
   });
   tablist.appendChild(tab);
 });
 
 const initialDay = /^#day([1-5])$/.exec(location.hash);
-selectDay(initialDay ? Number(initialDay[1]) - 1 : 0, false);
+if (location.hash === "#notes") selectTab(notesIndex, false);
+else selectTab(initialDay ? Number(initialDay[1]) - 1 : 0, false);
 </script>
 </body>
 </html>
