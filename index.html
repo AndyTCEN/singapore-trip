@@ -84,6 +84,35 @@
   [role="tab"][aria-selected="true"] { background: var(--teal); color: #fff; font-weight: 600; box-shadow: 0 3px 10px rgba(0, 128, 128, .4); }
   [role="tab"]:focus-visible { outline: 3px solid var(--info); outline-offset: 2px; }
 
+  .notice { max-width: 860px; margin: 1rem auto 0; padding-inline: 1rem; }
+  .notice > details {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-left: 5px solid var(--accent);
+    border-radius: 16px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, .05);
+  }
+  .notice summary {
+    list-style: none;
+    cursor: pointer;
+    padding: .9rem 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: .25rem .75rem;
+  }
+  .notice summary::-webkit-details-marker { display: none; }
+  .notice summary::after { content: "▾"; margin-left: auto; color: var(--muted); transition: transform .2s; }
+  .notice details[open] summary::after { transform: rotate(180deg); }
+  .notice summary:focus-visible { outline: 3px solid var(--info); outline-offset: -3px; }
+  .notice-title { font-weight: 700; font-size: 1.1rem; }
+  .notice-lead { color: var(--accent); font-size: .9rem; font-weight: 600; }
+  .notice-body { padding: 0 1rem 1rem; display: grid; gap: .75rem; }
+  .notice-body p { margin: 0; }
+  .notice-body ol { margin: 0; padding-left: 1.2rem; }
+  .notice-body a { color: var(--info); }
+  .notice-source { font-size: .8rem; color: var(--muted); }
+
   main { max-width: 860px; margin: 0 auto; padding: 1rem; }
   .day-cover {
     position: relative;
@@ -201,6 +230,8 @@
   .info-card.transport h4 { color: var(--info); }
   .info-card.attraction { border-color: var(--teal); }
   .info-card.attraction h4 { color: var(--teal-dark); }
+  .info-card.notice-card { border-color: var(--teal); }
+  .info-card.notice-card h4 { color: var(--teal-dark); }
   .info-card.food { border-color: var(--food); }
   .info-card.food h4 { color: var(--food); }
   .info-card.rain { border-color: var(--accent); background: #fdf1f0; }
@@ -235,6 +266,72 @@
 <nav class="day-tabs" aria-label="行程天數">
   <div role="tablist" id="tablist"></div>
 </nav>
+
+<section class="notice" aria-labelledby="notice-heading">
+  <details>
+    <summary>
+      <span class="notice-title" id="notice-heading">🛂 入境須知</span>
+      <span class="notice-lead">出發前 72 小時內填寫 SG Arrival Card（免費）</span>
+    </summary>
+    <div class="notice-body">
+      <section class="info-card rain">
+        <h4>⏰ 你的填寫時間</h4>
+        <p>抵達日為 <strong>2026/09/24 (四)</strong>，最早 <strong>9/21 (一)</strong> 起可填。建議 9/22–9/23 完成，並截圖或存 PDF 備用。</p>
+      </section>
+
+      <section class="info-card transport">
+        <h4>📱 填寫方式</h4>
+        <ul>
+          <li>官方網站：<a href="https://eservices.ica.gov.sg/sgarrivalcard/" target="_blank" rel="noopener noreferrer">eservices.ica.gov.sg/sgarrivalcard</a></li>
+          <li>App：MyICA Mobile (iOS / Android)</li>
+          <li>費用：完全免費；請只使用官方入口，避免誤入收費的代辦網站</li>
+        </ul>
+      </section>
+
+      <section class="info-card notice-card">
+        <h4>🇹🇼 台灣護照</h4>
+        <ul>
+          <li>免簽 30 天（本行程 5 天）</li>
+          <li>護照效期需超過 6 個月：9/24 入境，效期須晚於 <strong>2027/03/24</strong></li>
+          <li>可使用自動通關機 (ACI)，按下護照做生物辨識</li>
+        </ul>
+      </section>
+
+      <section class="info-card notice-card">
+        <h4>📝 必填欄位</h4>
+        <ul>
+          <li><strong>個人資料</strong>：護照掃描或手動輸入、居住地與國家代碼、手機號碼、電子信箱</li>
+          <li><strong>行程</strong>：入境與離境日期、抵達方式 (空運)、航班號碼與航空公司、旅行目的 (度假)、新加坡住宿地址 (Hotel Jen Orchardgateway)、抵達與離境前的城市 (台北)</li>
+          <li><strong>健康與經歷聲明</strong>：是否曾用其他護照入境新加坡、目前是否有感冒症狀、近 6 天是否造訪特定非洲或拉丁美洲國家</li>
+        </ul>
+      </section>
+
+      <section class="info-card transport">
+        <h4>🛃 入境流程</h4>
+        <ol>
+          <li>出發前完成線上申報</li>
+          <li>持護照進入移民檢查區，使用自動通關機台</li>
+          <li>領取行李，通過海關檢查</li>
+          <li>之後到 Jewel Changi 1 樓寄放行李 (見 Day 1)</li>
+        </ol>
+      </section>
+
+      <section class="info-card food">
+        <h4>🚫 禁止與限制物品</h4>
+        <ul>
+          <li>口香糖、電子菸、違禁藥品，一律不要攜帶</li>
+          <li>菸酒有免稅額度限制，超量須課稅</li>
+          <li>現金超過門檻須申報，可在 App 線上填寫；門檻約 S$20,000，請以官方公告為準</li>
+        </ul>
+      </section>
+
+      <p class="notice-source">
+        資料來源：<a href="https://panpanlife.com/sgac/" target="_blank" rel="noopener noreferrer">panpanlife.com/sgac</a>。
+        規定可能變動，出發前請至 <a href="https://www.ica.gov.sg/" target="_blank" rel="noopener noreferrer">新加坡移民與關卡局 (ICA)</a> 確認。
+      </p>
+    </div>
+  </details>
+</section>
 
 <main id="content" tabindex="-1"></main>
 
