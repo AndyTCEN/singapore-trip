@@ -276,7 +276,7 @@
   </div>
 </header>
 
-<nav class="day-tabs" aria-label="行程天數與注意事項">
+<nav class="day-tabs" aria-label="行程天數、注意事項與必買清單">
   <div role="tablist" id="tablist"></div>
 </nav>
 
@@ -923,6 +923,52 @@ const noteGroups = [
   },
 ];
 
+/** @type {NoteGroup[]} */
+const mustBuyGroups = [
+  {
+    heading: "🎁 經典南洋糕點與零食", kind: "checklist", cardClass: "food",
+    items: [
+      { label: "Bengawan Solo 班蘭戚風蛋糕", detail: "新加坡「國糕」，蓬鬆如雲朵、帶班蘭與椰奶香。樟宜機場管制區內有分店，建議登機前在免稅店購買（省 9% GST）並手提上機，最能保持完整與新鮮" },
+      { label: "IRVINS 鹹蛋黃魚皮", detail: "酥脆魚皮裹鹹蛋黃、咖哩葉與辣椒，鹹甜微辣。商場、超市、機場皆有櫃位，夾鏈袋包裝適合分送" },
+      { label: "亞坤咖椰醬 (Ya Kun Kaya Jam)", detail: "椰奶、雞蛋、砂糖與香蘭葉調成。烤吐司抹咖椰醬、夾冷牛油，配半熟蛋與 Kopi 就是道地星式早餐" },
+      { label: "Bengawan Solo 娘惹糕點", detail: "九層糕、椰絲球等，不含防腐劑、保存期限極短（建議當天吃完），適合旅途中享用，不建議託運帶回台灣" },
+    ],
+  },
+  {
+    heading: "☕ 頂級茶飲與精品咖啡", kind: "checklist", cardClass: "transport",
+    items: [
+      { label: "Bacha Coffee 巴哈咖啡", detail: "摩洛哥宮廷風精品咖啡，掛耳包口味數十種、包裝精美。烏節路高島屋、濱海灣金沙有店面；建議保留預算到樟宜機場管制區免稅購買（省 9% GST）" },
+      { label: "TWG Tea", detail: "頂級茶葉品牌，經典黃色圓茶罐、棉質手工茶包與調配茶（1837 黑茶、法式伯爵茶），馬卡龍也知名。各大百貨與機場免稅店皆有據點" },
+    ],
+  },
+  {
+    heading: "🍜 在地星風味料理包", kind: "checklist", cardClass: "notice-card",
+    items: [
+      { label: "松發肉骨茶包 (Song Fa)", detail: "潮州式胡椒蒜香湯頭，香料包一盒 10 包入，加排骨與整顆蒜頭即可熬煮。可在任一松發分店直接購買" },
+      { label: "百勝廚叻沙拉麵 (Prima Taste)", detail: "多次榮登全球泡麵排行榜第一，蒸煮寬拉麵 Q 彈，附大包叻沙糊與椰漿粉。在 FairPrice、昇菘 (Sheng Siong) 等超市購買最划算" },
+    ],
+  },
+  {
+    heading: "👜 時尚鞋包與生活藥品", kind: "checklist", cardClass: "rain",
+    items: [
+      { label: "Charles & Keith (小CK)", detail: "款式全、更新快，定價通常比台灣低 7–8 折。市區商場單筆滿 100 新幣可辦退稅（護照登記，於機場電子退稅機辦理）；烏節路 313@Somerset、ION、星耀樟宜與機場皆有分店" },
+      { label: "虎標萬金油與貼布 (Tiger Balm)", detail: "紅色（溫熱、緩解痠痛）、白色（清涼、頭痛與蚊蟲叮咬），另有痠痛貼布、防蚊噴霧與貼片。Watsons、Guardian 藥妝店或超市皆可購得" },
+    ],
+    callout: "⚠️ 肉乾禁止帶回台灣：林志源 (Lim Chee Guan) 等肉乾、肉鬆、火腿、香腸等肉製品，依農業部防檢署規定一律禁止攜帶入境（託運、手提、免稅店購買皆不行），違者罰 20 萬至 100 萬元台幣。請在當地品嚐完畢，切勿帶回。",
+  },
+  {
+    heading: "✨ 進階版與在地特色伴手禮", kind: "checklist", cardClass: "food",
+    items: [
+      { label: "新加坡司令紀念酒 (Singapore Sling)", detail: "新加坡「國酒」，誕生於萊佛士酒店的粉紅雞尾酒，酸甜帶草本與水果香。市面與樟宜機場免稅店有調配好的紀念瓶裝，回家加冰塊與檸檬片即可飲用" },
+      { label: "新加坡限定美祿 (Milo Gao / Kosong)", detail: "當地配方奶香更濃、可可味更厚實，與台灣版不同。超市選帶「Gao」（特濃）或「Kosong」（無糖無煉乳版，適合控糖）標籤的袋裝" },
+      { label: "The Cookie Museum 手工餅乾", detail: "頂級手作餅乾，有辣椒螃蟹、椰漿飯、海南雞飯、斑蘭戚風蛋糕等獨特口味，搭配英式復古鐵盒。主要在烏節路高島屋、萊佛士城等高級商場設櫃" },
+      { label: "廣祥泰醬油 & 百勝廚海南雞飯醬", detail: "廣祥泰為百年醬料老字號，買「海南雞飯老抽（黑醬油）」或百勝廚海南雞飯自煮醬包，搭配雞肉與白米就能在家還原星式海南雞飯。超市或牛車水總店有售" },
+      { label: "金鴨 (The Golden Duck) 鹹蛋黃與辣椒螃蟹系列", detail: "與 IRVINS 並列的零食巨頭，「鹹蛋黃蟹肉海苔天婦羅」與「辣椒螃蟹天婦羅紫菜」風味層次更高。FairPrice 等超市與 7-Eleven 均有販售" },
+      { label: "魚尾獅造型巧克力與曲奇", detail: "需大量分送同事、同學或親戚時，到牛車水或 Mustafa Centre（24 小時慕達發中心）買平價散裝魚尾獅紀念盒裝最省" },
+    ],
+  },
+];
+
 const checklistStorageKey = "sg-trip-checklist";
 
 function loadCheckedItems() {
@@ -986,15 +1032,16 @@ function renderNoteGroup(group, checkedItems) {
   return section;
 }
 
-function renderNotes(container) {
+function renderNotes(container, groups) {
   const checkedItems = loadCheckedItems();
-  noteGroups.forEach((group) => container.appendChild(renderNoteGroup(group, checkedItems)));
+  groups.forEach((group) => container.appendChild(renderNoteGroup(group, checkedItems)));
 }
 
 const tablist = document.getElementById("tablist");
 const content = document.getElementById("content");
 const notesIndex = days.length;
-const totalTabs = days.length + 1;
+const mustBuyIndex = days.length + 1;
+const totalTabs = days.length + 2;
 let activeIndex = 0;
 
 function createCover(imageName, title, subtitle) {
@@ -1023,8 +1070,15 @@ function selectTab(index, moveFocus) {
   if (index === notesIndex) {
     content.appendChild(createCover("merlion", "注意事項", "出發前請先確認"));
     content.appendChild(document.getElementById("notes-template").content.cloneNode(true));
-    renderNotes(content);
+    renderNotes(content, noteGroups);
     history.replaceState(null, "", "#notes");
+    return;
+  }
+
+  if (index === mustBuyIndex) {
+    content.appendChild(createCover("merlion", "必買清單", "伴手禮與在地好物"));
+    renderNotes(content, mustBuyGroups);
+    history.replaceState(null, "", "#buy");
     return;
   }
 
@@ -1037,6 +1091,7 @@ function selectTab(index, moveFocus) {
 const tabLabels = [
   ...days.map((day) => ({ name: day.label, hint: day.date.slice(5, 10) })),
   { name: "注意事項", hint: "" },
+  { name: "必買清單", hint: "" },
 ];
 
 tabLabels.forEach((label, index) => {
@@ -1055,6 +1110,7 @@ tabLabels.forEach((label, index) => {
 
 const initialDay = /^#day([1-5])$/.exec(location.hash);
 if (location.hash === "#notes") selectTab(notesIndex, false);
+else if (location.hash === "#buy") selectTab(mustBuyIndex, false);
 else selectTab(initialDay ? Number(initialDay[1]) - 1 : 0, false);
 </script>
 </body>
