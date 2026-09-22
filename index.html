@@ -969,6 +969,58 @@ const mustBuyGroups = [
   },
 ];
 
+/** @type {NoteGroup[]} */
+const foodChecklistGroups = [
+  {
+    heading: "☕ 一、經典早餐與點心類", kind: "checklist", cardClass: "food",
+    items: [
+      { label: "亞坤 咖椰吐司 (Ya Kun Kaya Toast)", detail: "推薦地點：機場或市區各大商場（Somerset 站附近也有分店）｜經典吃法：酥脆咖椰牛油吐司 + 半熟蛋（淋黑醬油與胡椒粉，用吐司沾著吃）+ 熱黑咖啡 (Kopi O)" },
+      { label: "華陽咖啡店 酥皮蛋塔 (Oriental Kopi)", detail: "推薦地點：在飯店（Hotel Jen）用 Grab App 叫外送｜必吃特色：塔皮極酥、內餡厚實飽滿，超邪惡的下午茶或宵夜首選" },
+      { label: "7-11 奶油白醬風味飯糰", detail: "推薦地點：市區任意 7-11 便利商店｜必吃特色：微波後有濃郁的義式燉飯口感，高 CP 值的宵夜驚喜" },
+      { label: "小印度 印度煎餅 (Roti Prata)", detail: "備選清單：沾著香濃咖哩醬吃，外酥內軟的道地風味" },
+      { label: "傳統水粿 (Chwee Kueh)", detail: "備選清單：蒸米粿鋪上滿滿鹹香辣炒菜圃，極具古早味" },
+      { label: "經濟米粉", detail: "備選清單：熟食中心常見的在地平民早餐，便宜大碗" },
+    ],
+  },
+  {
+    heading: "🍗 二、經典主食與南洋風味", kind: "checklist", cardClass: "notice-card",
+    items: [
+      { label: "天天海南雞飯", detail: "推薦地點：牛車水 麥士威熟食中心 (Maxwell Food Centre)｜必吃特色：米飯吸飽雞油香氣十足，軟嫩無比（排隊約 30~60 分鐘）" },
+      { label: "麥士威海南雞飯", detail: "推薦地點：牛車水 麥士威熟食中心｜必吃特色：不用排隊，雞肉口感較紮實偏瘦，在地人的平價選擇" },
+      { label: "三巡海南雞飯", detail: "推薦地點：怡豐城大食代 (Food Republic @ VivoCity)｜必吃特色：雞肉極嫩，特製醬汁帶點甜味，非常下飯" },
+      { label: "新達城 Killiney 叻沙 (Laksa)", detail: "推薦地點：新達城 (Suntec City - 搭鴨子船處)｜必吃特色：椰奶與香料完美融合的濃郁湯頭，海鮮料豐富" },
+      { label: "新達城 Killiney 米線 (Mee Siam)", detail: "推薦地點：新達城 (Suntec City)｜必吃特色：口感像粗冬粉，湯頭酸甜開胃，適合炎熱氣候" },
+      { label: "新達城 Killiney 咖哩雞", detail: "推薦地點：新達城 (Suntec City)｜必吃特色：味道極度濃郁香醇，沾麵包或配飯都絕配" },
+      { label: "辣椒螃蟹「炸饅頭」", detail: "推薦地點：怡豐城大食代 (VivoCity) 或克拉碼頭餐廳｜必吃特色：免剝殼無痛吃法！直接點「炸饅頭」沾滿濃郁帶甜辣的辣椒螃蟹醬汁" },
+    ],
+  },
+  {
+    heading: "🍲 三、肉骨茶流派", kind: "checklist", cardClass: "rain",
+    items: [
+      { label: "松發肉骨茶 (Song Fa)【潮州派 - 胡椒白湯】", detail: "推薦地點：克拉碼頭、市區各大商場（米其林推薦）｜必吃特色：湯頭清亮、有非常濃郁的蒜頭與胡椒嗆辣香氣，排骨燉到輕輕一撥就骨肉分離（湯可以免費續加！）" },
+      { label: "黃亞細肉骨茶 (Ng Ah Sio)【潮州派 - 重胡椒白湯】", detail: "推薦地點：仰光路總店、濱海灣金沙等｜必吃特色：胡椒味極度嗆辣，重口味、愛好辛辣湯頭者必挑戰" },
+    ],
+  },
+  {
+    heading: "🍹 四、街頭點心與消暑飲料", kind: "checklist", cardClass: "transport",
+    items: [
+      { label: "椰子冰沙 (Coconut Shake)", detail: "推薦地點：魚尾獅公園附近｜必吃特色：濃郁椰奶香配上碎冰與椰子肉，新加坡第一名的消暑解熱神器" },
+      { label: "曼隆 玫瑰牛奶 (Bandung)", detail: "推薦地點：各大熟食中心、飲料攤｜必吃特色：玫瑰露加煉乳，粉紅色外觀超吸睛，花香濃郁且香甜解辣" },
+      { label: "楊枝甘露雪花冰", detail: "推薦地點：聖淘沙海灘站 (Beach Station)｜必吃特色：芒果味十足、雪花冰質極度綿細，海灘消暑首選" },
+      { label: "薄餅 / 春捲 (Popiah)", detail: "推薦地點：麥士威熟食中心 (Maxwell Food Centre)｜必吃特色：甜甜鹹鹹、包滿沙葛、花生碎與蔬菜，爽口又解膩的配菜" },
+      { label: "Junior Falafel 中東法拉費", detail: "推薦地點：聖淘沙名勝世界 WEWA｜必吃特色：鷹嘴豆泥球外酥內軟，搭配蔬菜口袋餅，爽口清爽無負擔" },
+    ],
+  },
+  {
+    heading: "💡 享用星國美食 3 大心法", kind: "tips", cardClass: "notice-card",
+    items: [
+      { label: "認明「面紙／雨傘」", detail: "熟食中心桌上放有面紙或折傘代表已被佔位" },
+      { label: "有冷氣是王道", detail: "高溫炎熱時，百貨美食街（如 VivoCity 大食代、金沙 Rasapura Masters）是舒適用餐的最佳避風港" },
+      { label: "大膽沾醬", detail: "新加坡沾醬（如黑醬油、辣椒醬、咖椰醬）是食物的靈魂，一定要大膽沾下去！" },
+    ],
+  },
+];
+
 const checklistStorageKey = "sg-trip-checklist";
 
 function loadCheckedItems() {
@@ -1040,8 +1092,9 @@ function renderNotes(container, groups) {
 const tablist = document.getElementById("tablist");
 const content = document.getElementById("content");
 const notesIndex = days.length;
-const mustBuyIndex = days.length + 1;
-const totalTabs = days.length + 2;
+const foodIndex = days.length + 1;
+const mustBuyIndex = days.length + 2;
+const totalTabs = days.length + 3;
 let activeIndex = 0;
 
 function createCover(imageName, title, subtitle) {
@@ -1075,6 +1128,13 @@ function selectTab(index, moveFocus) {
     return;
   }
 
+  if (index === foodIndex) {
+    content.appendChild(createCover("merlion", "美食清單", "邊玩邊解鎖南洋美味"));
+    renderNotes(content, foodChecklistGroups);
+    history.replaceState(null, "", "#food");
+    return;
+  }
+
   if (index === mustBuyIndex) {
     content.appendChild(createCover("merlion", "必買清單", "伴手禮與在地好物"));
     renderNotes(content, mustBuyGroups);
@@ -1091,6 +1151,7 @@ function selectTab(index, moveFocus) {
 const tabLabels = [
   ...days.map((day) => ({ name: day.label, hint: day.date.slice(5, 10) })),
   { name: "注意事項", hint: "" },
+  { name: "美食清單", hint: "" },
   { name: "必買清單", hint: "" },
 ];
 
@@ -1110,6 +1171,7 @@ tabLabels.forEach((label, index) => {
 
 const initialDay = /^#day([1-5])$/.exec(location.hash);
 if (location.hash === "#notes") selectTab(notesIndex, false);
+else if (location.hash === "#food") selectTab(foodIndex, false);
 else if (location.hash === "#buy") selectTab(mustBuyIndex, false);
 else selectTab(initialDay ? Number(initialDay[1]) - 1 : 0, false);
 </script>
